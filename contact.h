@@ -19,7 +19,7 @@ void searchContact(AddressBook *addressBook);
 void editContact(AddressBook *addressBook);
 void deleteContact(AddressBook *addressBook);
 void listContacts(AddressBook *addressBook, int sortCriteria);
-void initialize(AddressBook *addressBook);
+//void initialize(AddressBook *addressBook);
 void saveContactsToFile(AddressBook *AddressBook);
 
 #endif

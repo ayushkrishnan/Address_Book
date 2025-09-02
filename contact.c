@@ -3,7 +3,6 @@
 #include <string.h>
 #include "contact.h"
 #include "file.h"
-#include "populate.h"
 #include <ctype.h>
 
 void listContacts(AddressBook *addressBook, int sortCriteria) 
@@ -68,7 +67,7 @@ void listContacts(AddressBook *addressBook, int sortCriteria)
 
 void initialize(AddressBook *addressBook) {
     addressBook->contactCount = 0;
-    populateAddressBook(addressBook);
+   // populateAddressBook(addressBook);
     
     // Load contacts from file during initialization (After files)
     //loadContactsFromFile(addressBook);
@@ -97,11 +96,12 @@ int is_unique(char check[],AddressBook *addressBook)
             return 1;
         }
     }
+    //return 0;
 }
 void createContact(AddressBook *addressBook)
 {
 	/* Define the logic to create a Contacts */
-    char new_name[50],new_phone[50],new_mail[50];
+    char new_name[50],new_phone[20],new_mail[50];
     int phlen;
     char *emaill;
     char *emcom;
@@ -125,7 +125,7 @@ void createContact(AddressBook *addressBook)
             strcpy(addressBook->contacts[addressBook->contactCount].name,new_name);
             
             label_phoneno:
-            printf("\nEnter the Phone Number:");
+            printf("Enter the Phone Number:");
             //scanf("%s",addressBook->contacts[i].phone);
             scanf("%s",new_phone);
             phlen=strlen(new_phone);
@@ -156,20 +156,23 @@ void createContact(AddressBook *addressBook)
                         emcom=strstr(new_mail,".com");
                         if(emaill && emcom)
                         {
-                            int alphanum=isalnum(emaill-1);
+        
+                            int alphanum=isalnum(*(emaill-1));
+                           
                             if(alphanum)
                             {
-                                int alphanum2=isalnum(emcom-1);
+                                int alphanum2=isalnum(*(emcom-1));
                                 if(alphanum2)
                                 {
+                                    
                                     if(is_unique(new_mail,addressBook))
                                     {
                                         strcpy(addressBook->contacts[addressBook->contactCount].email,new_mail);
-                                        printf("Contact Created successfully ");
+                                        printf("Contact Created successfully \n");
                                         addressBook->contactCount++;
                                     }
                                     else{
-                                        printf("The email id is already existing");
+                                        printf("The email id is already existing\n");
                                         goto label_email;
                                     }
                                 }
@@ -268,7 +271,7 @@ void searchContact(AddressBook *addressBook)
             if(ret)
             {
                 printf("\n %s \t %s \t %s",addressBook->contacts[ret].name,addressBook->contacts[ret].phone,addressBook->contacts[ret].email);
-                
+
             }
             else{
                 printf("\nNOT FOUND!!");
@@ -293,7 +296,7 @@ void searchContact(AddressBook *addressBook)
             ret=search(emailser,3,addressBook);
             if(ret)
             {
-                printf("\n %s \t %s \t %s",addressBook->contacts[ret].name,addressBook->contacts[ret].phone,addressBook->contacts[ret].email);
+                printf("\n%d \t %s \t %s \t %s",ret,addressBook->contacts[ret].name,addressBook->contacts[ret].phone,addressBook->contacts[ret].email);
             }
             else{
                 printf("\nNOT FOUND!!");
@@ -309,18 +312,101 @@ void searchContact(AddressBook *addressBook)
 void editContact(AddressBook *addressBook)
 {
 	/* Define the logic for Editcontact */
-    char edname[50];
+    char edname[50],edphno[20],edmail[50];
     searchContact(addressBook);
     printf("1.Edit Name\n2.Edit Phone Number\n3.Edit Email");
     printf("Enter the choice:");
-    int edcho;
-    scanf("%d",edcho);
+    int edcho,alpha;
+    scanf("%d",&edcho);
     switch(edcho)
     {
         case 1:
             
-            printf("Enter the Person who's Name to be changed");
-            scanf("&s",edname);
+            printf("Enter the New Name ");
+            scanf("%s",edname);
+            int i=0;
+            while(edname[i])
+            {
+                alpha=0;
+                if(isalpha(edname[i]))
+                {
+                    alpha=1;
+                }
+                i++;
+            }
+            break;
+        
+        case 2:
+            printf("Enter the new phone number");
+            scanf("%s",edphno);
+            int phlen;
+            phlen=strlen(edphno);
+            if(phlen==10)
+            {
+                i=0;
+                int digit=0;
+                while(edphno[i])
+                {
+                    digit=0;
+                    if(isdigit(edphno[i]))
+                    {
+                        digit=1;
+                    }
+                    i++;
+                }
+                if(digit)
+                {
+                    if(is_unique(edphno,addressBook))
+                    {
+                        strcpy(addressBook->contacts[addressBook->contactCount].phone,edphno);
+                    }
+                }
+            }
+            break;
+
+        case 3:
+            label_email1:
+            
+            printf("Enter the new Email");
+            char *emaill,*emcom;
+                        emaill=strchr(edmail,'@');
+                        emcom=strstr(edmail,".com");
+                        if(emaill && emcom)
+                        {
+                            int alphanum=isalnum(emaill-1);
+                            if(alphanum)
+                            {
+                                int alphanum2=isalnum(emcom-1);
+                                if(alphanum2)
+                                {
+                                    if(is_unique(edmail,addressBook))
+                                    {
+                                        strcpy(addressBook->contacts[addressBook->contactCount].email,edmail);
+                                        printf("Email updated successfully ");
+                                        addressBook->contactCount++;
+                                    }
+                                    else{
+                                        printf("The email id is already existing");
+                                        goto label_email1;
+                                    }
+                                }
+                                else{
+                                    printf("Email should contain domain name");
+                                    goto label_email1;
+                                }
+                            }
+                            else{
+                                printf("Email should contain characters in front of @");
+                                goto label_email1;
+                            }
+                        }
+                        else
+                        {
+                            printf("Email should contain @ and .com");
+                            goto label_email1;
+                        }
+
+
 
 
     }
@@ -330,8 +416,7 @@ void editContact(AddressBook *addressBook)
 void deleteContact(AddressBook *addressBook)
 {
 	/* Define the logic for deletecontact */
-    while(1)
-    {
+    
         printf("\n1.ID");
         printf("\n2.Name");
         printf("\n3.Exit");
@@ -350,7 +435,7 @@ void deleteContact(AddressBook *addressBook)
                         printf("k");
                 }
         }
-    }
+    
 
    
 }

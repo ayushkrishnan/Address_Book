@@ -6,13 +6,17 @@ DESC:Address book project
 
 #include <stdio.h>
 #include "contact.h"
+#include "file.h"
 
 int main() {
     int choice,sortChoice;
     //Datatype   variable
     
     AddressBook addressBook;
-    initialize(&addressBook); // Initialize the address book
+    //initialize(&addressBook); // Initialize the address book
+
+    addressBook.contactCount=0;
+    loadContactsFromFile(&addressBook);  //Load the contacts to the struct
 
     do {
         printf("\nAddress Book Menu:\n");
@@ -44,7 +48,7 @@ int main() {
                 break;
             case 6:
                 printf("Saving and Exiting...\n");
-                //saveContactsToFile(&addressBook);
+                saveContactsToFile(&addressBook);
                 break;
             default:
                 printf("Invalid choice. Please try again.\n");
