@@ -43,8 +43,18 @@ int main() {
             case 4:
                 deleteContact(&addressBook);
                 break;
-            case 5:          
+            case 5:  
+                printf("1.List All items given order \n 2.List items by Name \n 3.List items By phone Number \n 4.List items Email");
+                 
+                printf("1.List all the contact details");
+                printf("\n2.Print by category");
+                printf("\n3.Print Specfic contacts");
+    int lich;
+    printf("\nEnter the list choice:");
+    scanf("%d",&lich);
+                scanf("%d",&sortChoice);
                 listContacts(&addressBook, sortChoice);
+                
                 break;
             case 6:
                 printf("Saving and Exiting...\n");
