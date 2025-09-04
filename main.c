@@ -44,14 +44,10 @@ int main() {
                 deleteContact(&addressBook);
                 break;
             case 5:  
-                printf("1.List All items given order \n 2.List items by Name \n 3.List items By phone Number \n 4.List items Email");
-                 
-                printf("1.List all the contact details");
-                printf("\n2.Print by category");
-                printf("\n3.Print Specfic contacts");
-    int lich;
-    printf("\nEnter the list choice:");
-    scanf("%d",&lich);
+                printf("1.List All items given order \n 2.List items by Name \n 3.List items By phone Number \n 4.List items Email\n");
+                //int lich;
+                printf("Enter the list choice:");
+                //scanf("%d",&lich);
                 scanf("%d",&sortChoice);
                 listContacts(&addressBook, sortChoice);
                 
@@ -60,8 +56,12 @@ int main() {
                 printf("Saving and Exiting...\n");
                 saveContactsToFile(&addressBook);
                 break;
+            case 7:
+                printf("Thankyou \nExiting the program\n");
+                break;
             default:
                 printf("Invalid choice. Please try again.\n");
+                //break;
         }
     } while (choice != 7);
     
