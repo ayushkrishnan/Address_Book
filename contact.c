@@ -23,40 +23,56 @@ void listContacts(AddressBook *addressBook, int sortCriteria)
             }
             break;
         case 2:
-            printf("\n1.Sort by Name's");
-            printf("\n2.Sort by Phone No");
-            printf("\n3.Sort by Email");
-            int catch;
-            printf("\nEnter the choice:");
-            scanf("%d",&catch);
-            switch(catch)
-            {
-                case 1:
+            
+                //case 1:
                     printf("\nNAME");
                     for(int i=0;i<addressBook->contactCount;i++)
                     {
                         printf("\n%s",addressBook->contacts[i].name);
                     }
                     break;
-                case 2:
+               // case 2:
                     printf("\nNAME \t Phone NO");
                     for(int i=0;i<addressBook->contactCount;i++)
                     {
                         printf("\n%s \t %s",addressBook->contacts[i].name,addressBook->contacts[i].phone);
                     }
                     break;
-                case 3:
+               // case 3:
                     printf("\nNAME \t EMAIL");
                     for(int i=0;i<addressBook->contactCount;i++)
                     {
                         printf("%s \t %s",addressBook->contacts[i].name,addressBook->contacts[i].email);
                     }
                     break;
-            }
+            //}
             break;
         
         case 3:
-            printf("1.By NAME");
+
+            printf("\n NAME \t Phone Number \t Email");
+            for(int i=0;i<addressBook->contactCount;i++)
+            {
+                for(int j=i+1;j<addressBook->contactCount;j++)
+                {
+                    if(addressBook->contacts[i].phone>addressBook->contacts[j].phone)
+                        printf("\n%s\t%s\t%s",addressBook->contacts[i].name,addressBook->contacts[i].phone,addressBook->contacts[i].email);
+                }
+            }
+            break;
+        
+        case 4:
+    
+            printf("\n NAME \t Phone Number \t Email");
+            for(int i=0;i<addressBook->contactCount;i++)
+            {
+                for(int j=i+1;j<addressBook->contactCount;j++)
+                {
+                    if(addressBook->contacts[i].email>addressBook->contacts[j].email)
+                        printf("\n%s\t%s\t%s",addressBook->contacts[i].name,addressBook->contacts[i].phone,addressBook->contacts[i].email);
+                }
+            }
+            break;
 
 
     }
@@ -228,6 +244,8 @@ void createContact(AddressBook *addressBook)
 
 int search(char ele[],int opt,AddressBook *addressBook)
 {
+    printf("The option is %d\n",opt);
+    printf("The input inside the fucntion %s\n",ele);
     switch(opt)
     {
         case 1:
@@ -260,14 +278,14 @@ int search(char ele[],int opt,AddressBook *addressBook)
         case 3:
         {
 
-           // printf("THE given email => %s",ele);
+           printf("THE given email => %s",ele);
+           int len = strlen(ele);
             for(int i=0;i<addressBook->contactCount;i++)
             {
-                printf("%d %s\n",i,addressBook->contacts[i].email);
-                if(strcmp(ele,addressBook->contacts[i].email)==0)
+                //printf("%d %s\n",i,addressBook->contacts[i].email);
+                if(strncmp(ele,addressBook->contacts[i].email,len)==0)
                 {
-                    printf("%s",ele);
-                    //return i;
+                    return i;
                 }
             }
         }
@@ -282,7 +300,7 @@ int searchContact(AddressBook *addressBook)
     char nameser[50],phoneser[50],emailser[50];
     printf("1.Search By NAME:\n2.Search By Phone_NO\n3.Search By Email\n");
     printf("Enter the choice:\n");
-    int sercho,ret;
+    int sercho,ret=0;
     scanf("%d",&sercho);
     switch(sercho)
     {
@@ -295,7 +313,7 @@ int searchContact(AddressBook *addressBook)
             {
                 printf("\n%d \t %s \t %s \t %s",ret,addressBook->contacts[ret].name,addressBook->contacts[ret].phone,addressBook->contacts[ret].email);
                 //addcount
-                newindex[i++]=ret;
+                //newindex[i++]=ret;
                 count++;
 
             }
@@ -324,9 +342,10 @@ int searchContact(AddressBook *addressBook)
         }
         case 3:
            // getchar();
-           __fpurge(stdin);
+           //__fpurge(stdin);
             printf("Enter the Email id to be searched:");
-            scanf(" %[^\n]",emailser);
+            scanf(" %s",emailser);
+            printf("The readed email id => %s",emailser);
             ret=search(emailser,3,addressBook);
             if(ret)
             {
