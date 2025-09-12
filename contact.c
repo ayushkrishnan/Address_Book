@@ -423,6 +423,7 @@ int searchContact(AddressBook *addressBook)
             int i=0;
             printf("Enter the name to be searched:");
             scanf("%s",nameser);
+            count=0;
             ret=search(nameser,1,addressBook);
             if(ret)
             {
@@ -497,12 +498,12 @@ void editContact(AddressBook *addressBook)
     {
         printf("\n1.Edit Name\n2.Edit Phone Number\n3.Edit Email\n");
         printf("Enter the choice:");
-        int edcho,alpha;
+        int edcho,alpha,slno=1;
         scanf("%d",&edcho);
         switch(edcho)
         {
             case 1:
-                int slno=1;
+                //slno=1;
                 if(count>1)
                 {
                     printf("Enter the serial number of which one to change:");
@@ -543,15 +544,16 @@ void editContact(AddressBook *addressBook)
                 if(phlen==10)
                 {
                     i=0;
-                    printf("\nbefore checkvalid");
+                    //printf("\nbefore checkvalid");
                     int digit=is_valid_phone(edphno);
                     if(digit)
                     {
-                        printf("\nAfter checkvalid");
+                        //printf("\nAfter checkvalid");
                         if(is_unique(edphno,addressBook))
                         {
-                            printf("\nafter unique");
+                            //printf("\nafter unique");
                             strcpy(addressBook->contacts[newindex[slno-1]].phone,edphno);
+                            printf("\n%d \t %s \t %s \t %s",i+1,addressBook->contacts[newindex[slno-1]].name,addressBook->contacts[newindex[slno-1]].phone,addressBook->contacts[newindex[slno-1]].email);
                             printf("Phone Number Updated succesfully");
                         }
                         else{
@@ -579,25 +581,28 @@ void editContact(AddressBook *addressBook)
                 }
                 label_email1:
                 i=0;
-                printf("Enter the new Email");
+                printf("Enter the new Email:");
                 scanf("%s",edmail);
-                char *emaill,*emcom;
-                        emaill=strchr(edmail,'@');
+                char *emailat,*emcom;
+                        emailat=strchr(edmail,'@');
                         emcom=strstr(edmail,".com");
                     if(is_low(edmail))
                     {    
-                        if(emaill && emcom)
+                        if(emailat && emcom)
                         {
-                            int alphanum=isalnum(emaill-1);
+                            int alphanum=isalnum(*(emailat-1));
                             if(alphanum)
                             {
-                                int alphanum2=isalnum(emcom-1);
+                                int alphanum2=isalnum(*(emcom-1));
                                 if(alphanum2)
                                 {
                                     if(is_unique(edmail,addressBook))
                                     {
                                         strcpy(addressBook->contacts[newindex[slno-1]].email,edmail);
-                                        printf("Email updated successfully ");
+                                        //strcpy(addressBook->contacts[newindex[slno-1]].email,edmail);
+                                        
+                                        printf("Email updated successfully \n");
+                                        printf("%d \t %s \t %s \t %s\n",i+1,addressBook->contacts[newindex[slno-1]].name,addressBook->contacts[newindex[slno-1]].phone,addressBook->contacts[newindex[slno-1]].email);
                                         //addressBook->contactCount++;
                                     }
                                     else{
@@ -617,13 +622,14 @@ void editContact(AddressBook *addressBook)
                         }
                         else
                         {
-                            printf("Email should contain @ and .com");
+                            printf("Email should contain @ and .com\n");
                             goto label_email1;
                         }
                     }
                     else{
                         printf("Email should contain only lower case\n");
                     }
+            break;        
         }
      }
      else{
@@ -633,7 +639,7 @@ void editContact(AddressBook *addressBook)
 
 void delete(int indexx,AddressBook *addressBook)
 {
-    for(int i=indexx;i<addressBook->contactCount;i++)
+    for(int i=newindex[indexx];i<addressBook->contactCount;i++)
     {
         strcpy(addressBook->contacts[i].name,addressBook->contacts[i+1].name);
         strcpy(addressBook->contacts[i].phone,addressBook->contacts[i+1].phone);
@@ -647,7 +653,7 @@ void deleteContact(AddressBook *addressBook)
         if(searchContact(addressBook))
         {
             printf("\n1.Delete by Name\n2.Delete by Phone\n3.Delete by email\n");
-            int cho,size;
+            int cho,size,slno=1;
             printf("Enter the Choice:");
             scanf("%d",&cho);
             switch(cho)
@@ -655,12 +661,19 @@ void deleteContact(AddressBook *addressBook)
                 case 1:
                     int i=0;
                     char delname[50];
+                    
                     printf("Enter the Name:");
                     scanf("%s",delname);
+                    if(count>1)
+                    {
+                        printf("Enter the serial number of which one to change:");
+                        scanf("%d",&slno);
+                    }
                     int ret=search(delname,1,addressBook);
+
                     if(ret)
                     { 
-                        delete(ret,addressBook);
+                        delete(slno-1,addressBook);
                         printf("Deleted Succes fully");
                     }
 
@@ -669,7 +682,9 @@ void deleteContact(AddressBook *addressBook)
                     char delphno[20];
                     printf("Enter the Phone number:");
                     scanf("%s",delphno);
+                    
                     ret=search(delphno,2,addressBook);
+                    
                     if(ret)
                     {
                         delete(ret,addressBook);
