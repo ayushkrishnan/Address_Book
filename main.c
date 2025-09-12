@@ -44,7 +44,7 @@ int main() {
                 deleteContact(&addressBook);
                 break;
             case 5:  
-                printf("1.List All items given order \n 2.List items by Name \n 3.List items By phone Number \n 4.List items Email\n");
+                printf("1.List All items given order \n2.List items by Name \n3.List items By phone Number \n4.List items Email\n");
                 //int lich;
                 printf("Enter the list choice:");
                 //scanf("%d",&lich);

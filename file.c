@@ -28,7 +28,7 @@ void loadContactsFromFile(AddressBook *addressBook) {
       return;
    }
    int i=0;
-   while((fscanf(fptr,"%[^,],%[^,],%[^,\n]\n",addressBook->contacts[i].name,addressBook->contacts[i].phone,addressBook->contacts[i].email))!=EOF)
+   while((fscanf(fptr,"%[^,],%[^,],%[^\n]\n",addressBook->contacts[i].name,addressBook->contacts[i].phone,addressBook->contacts[i].email))!=EOF)
    {
       i++;
       addressBook->contactCount++;
