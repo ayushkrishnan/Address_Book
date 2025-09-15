@@ -121,7 +121,7 @@ void saveAndExit(AddressBook *addressBook) {
     exit(EXIT_SUCCESS); // Exit the program
 }
 
-//It will validate the name check it contains only alphabets
+//It will validate the name and check it contains only alphabets
 int is_valid_name(char * ne_name)
 {
     int alpha;
@@ -138,28 +138,23 @@ int is_valid_name(char * ne_name)
     return alpha;
 }
 
+//check the emaili only contains lower letters
 int is_low(char *emaill)
 {
     int low,i=0;
     while(emaill[i])
     {
-        // low=0;
-        // if(islower(emailll[i]))
-        // {
-        //     low=1;
-        // }
-        // i++;
+        
         if (isalpha(emaill[i]) && !islower(emaill[i])) {
             return 0;  // Found an uppercase letter
         }
         i++;
     }
         return 1;  // All alphabetic characters are lowercase
-    //}
-    //}
-    //return low;
+    
 }
 
+//Check if phone number is valid
 int is_valid_phone(char *ph_no)
 {
     int digit,i=0;
@@ -175,6 +170,8 @@ int is_valid_phone(char *ph_no)
     return digit;
 }
 
+
+//Check the phone number is unique
 int is_unique(char check[],AddressBook *addressBook)
 {
     for(int i=0;i< addressBook->contactCount;i++)
@@ -187,6 +184,7 @@ int is_unique(char check[],AddressBook *addressBook)
     return 1;
 }
 
+//check if the email is unique
 int is_unique_email(char check[],AddressBook *addressBook)
 {
     int len = strlen(check);//to check the upto the length of the given string and to avoid unwanted charaters
@@ -199,6 +197,8 @@ int is_unique_email(char check[],AddressBook *addressBook)
     }
     return 1;
 }
+
+//Used to create contact it inputs name email and phone number inserts into the struct if both phone and email are unique
 
 void createContact(AddressBook *addressBook)
 {
@@ -312,6 +312,9 @@ void createContact(AddressBook *addressBook)
         }
 }
 
+
+//Search the elements accordingly
+
 int search(char ele[],int opt,AddressBook *addressBook)
 {
 
@@ -339,6 +342,7 @@ int search(char ele[],int opt,AddressBook *addressBook)
         }
         // return 1;
         break;
+
         case 2:
         {
             for(int i=0;i<addressBook->contactCount;i++)
@@ -352,6 +356,7 @@ int search(char ele[],int opt,AddressBook *addressBook)
 
         }
         break;
+
         case 3:
         {
 
@@ -367,7 +372,7 @@ int search(char ele[],int opt,AddressBook *addressBook)
                 }
             }
         }
-    return 0;
+        return 0;
     }
     return 1;
 }
@@ -408,6 +413,9 @@ int search(char ele[],int opt,AddressBook *addressBook)
 //     }
 //     return 1;
 // }
+
+
+//it is used to search the people by name,phone and email
 
 int searchContact(AddressBook *addressBook) 
 {
@@ -489,6 +497,9 @@ int searchContact(AddressBook *addressBook)
     }
     return 1;
 }
+
+//it is used to edit the contact deatils of the person according to its email its phone and name
+//uses search contact to found the contact
 
 void editContact(AddressBook *addressBook)
 {
@@ -637,6 +648,7 @@ void editContact(AddressBook *addressBook)
     }
 }
 
+//Uses the previous index to shift and delete the previous element
 void delete(int indexx,AddressBook *addressBook)
 {
     for(int i=newindex[indexx];i<addressBook->contactCount;i++)
@@ -647,6 +659,8 @@ void delete(int indexx,AddressBook *addressBook)
     }
 }
 
+//It is used to call the delete function and pass the seatils to delete
+//it uses the search contact to find the people
 void deleteContact(AddressBook *addressBook)
 {
 	/* Define the logic for deletecontact */
@@ -684,7 +698,7 @@ void deleteContact(AddressBook *addressBook)
                     scanf("%s",delphno);
                     
                     ret=search(delphno,2,addressBook);
-                    
+
                     if(ret)
                     {
                         delete(ret,addressBook);
@@ -707,6 +721,7 @@ void deleteContact(AddressBook *addressBook)
                 
             }
         }
-
+        
    
 }
+
