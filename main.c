@@ -5,16 +5,17 @@ DESC:Address book project
 */
 
 #include <stdio.h>
+#include <stdio_ext.h>
 #include "contact.h"
 #include "file.h"
 
 int main() {
     int choice,sortChoice;
-    //Datatype   variable
     
+    //Datatype   variable
     AddressBook addressBook;
-    //initialize(&addressBook); // Initialize the address book
-
+     
+    //intilaizing the addressbook count as 0.
     addressBook.contactCount=0;
     loadContactsFromFile(&addressBook);  //Load the contacts to the struct
 
@@ -29,7 +30,7 @@ int main() {
         printf("7. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
-        
+        __fpurge(stdin);
         switch (choice) {
             case 1:
                 createContact(&addressBook);
@@ -66,4 +67,5 @@ int main() {
     } while (choice != 7);
     
        return 0;
+    
 }

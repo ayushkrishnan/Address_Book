@@ -493,6 +493,7 @@ int searchContact(AddressBook *addressBook)
             break;
         default:
             printf("\nInvalid Choice\n");
+            return 0;
 
     }
     return 1;
@@ -720,6 +721,10 @@ void deleteContact(AddressBook *addressBook)
                     }
                 
             }
+        }
+        else{
+            //printf("Invalid choice");
+            return;
         }
         
    
